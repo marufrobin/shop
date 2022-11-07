@@ -12,6 +12,9 @@ class _CartPageState extends State<CartPage> {
 
   double price = 199.00;
 
+  bool priceDeleted = false;
+  var deletPrice = 0.0;
+
   double? totalPrice;
   totalprice() {
     totalPrice = price + 10;
@@ -34,7 +37,7 @@ class _CartPageState extends State<CartPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 16),
+            // margin: EdgeInsets.only(bottom: 16),
             child: Text(
               "My Cart",
               style: TextStyle(
@@ -42,6 +45,9 @@ class _CartPageState extends State<CartPage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.024,
           ),
           Container(
             height: 120,
@@ -93,6 +99,7 @@ class _CartPageState extends State<CartPage> {
                                 onTap: () {
                                   quentity > 1 ? quentity-- : quentity;
                                   totalPrice = (price * quentity) + 10;
+                                  priceDeleted = false;
 
                                   setState(() {});
                                 },
@@ -121,6 +128,7 @@ class _CartPageState extends State<CartPage> {
                                 onTap: () {
                                   quentity++;
                                   totalPrice = (price * quentity) + 10;
+                                  priceDeleted = false;
 
                                   setState(() {});
                                 },
@@ -138,7 +146,13 @@ class _CartPageState extends State<CartPage> {
                               ),
                               Spacer(),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  quentity = 0;
+                                  totalPrice = 0;
+                                  // price = 0;
+                                  priceDeleted = true;
+                                  setState(() {});
+                                },
                                 child: Container(
                                     padding: EdgeInsets.all(4),
                                     decoration: BoxDecoration(
@@ -161,7 +175,7 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
           SizedBox(
-            height: 8,
+            height: MediaQuery.of(context).size.height * 0.04,
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 16),
@@ -210,7 +224,7 @@ class _CartPageState extends State<CartPage> {
             ],
           ),
           SizedBox(
-            height: 8,
+            height: MediaQuery.of(context).size.height * 0.04,
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 16),
@@ -261,7 +275,9 @@ class _CartPageState extends State<CartPage> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: 40, bottom: 16),
+            margin: EdgeInsets.only(
+              top: 40,
+            ),
             child: Text(
               "Order Info",
               style: TextStyle(
@@ -270,37 +286,40 @@ class _CartPageState extends State<CartPage> {
                   color: Colors.black),
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.024,
+          ),
           Row(
             children: [
               Text(
                 "Subtotal",
-                style: TextStyle(color: Colors.black54, fontSize: 14),
+                style: TextStyle(color: Colors.black54, fontSize: 16),
               ),
               Spacer(),
               Text(
-                "\$$price.00",
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                "\$${priceDeleted == true ? deletPrice : price}",
+                style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ],
           ),
           SizedBox(
-            height: 8,
+            height: MediaQuery.of(context).size.height * 0.018,
           ),
           Row(
             children: [
               Text(
                 "Shipping Cost",
-                style: TextStyle(color: Colors.black54, fontSize: 14),
+                style: TextStyle(color: Colors.black54, fontSize: 16),
               ),
               Spacer(),
               Text(
-                "+\$10.00",
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                "+\$10.0",
+                style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ],
           ),
           SizedBox(
-            height: 8,
+            height: MediaQuery.of(context).size.height * 0.018,
           ),
           Row(
             children: [
@@ -310,7 +329,7 @@ class _CartPageState extends State<CartPage> {
               ),
               Spacer(),
               Text(
-                "\$$totalPrice.00",
+                "\$$totalPrice",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -319,7 +338,7 @@ class _CartPageState extends State<CartPage> {
             ],
           ),
           SizedBox(
-            height: 8,
+            height: MediaQuery.of(context).size.height * 0.024,
           ),
           Container(
             height: 50,
@@ -329,7 +348,7 @@ class _CartPageState extends State<CartPage> {
                 borderRadius: BorderRadius.circular(16)),
             child: Center(
               child: Text(
-                "CHECKOUT (\$${totalPrice}.00)",
+                "CHECKOUT (\$${totalPrice})",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
